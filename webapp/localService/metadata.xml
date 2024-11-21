@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="https://virutal.https.dgw:443/sap/opu/odata/iwfnd/catalogservice;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='DV4')/$value" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="ZC_NOTIFICATIONLIST_CDS" xml:lang="en" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <Annotation Term="Core.SchemaVersion" String="1.0.0" xmlns="http://docs.oasis-open.org/odata/ns/edm"/>
+            <EntityType Name="ZC_NOTIFICATIONLISTType" sap:label="Consumption View for Quality Notif List" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="NotificationNo"/>
+                </Key>
+                <Property Name="NotificationNo" Type="Edm.String" Nullable="false" MaxLength="12" sap:display-format="UpperCase" sap:label="Notification"/>
+                <Property Name="OrderNo" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="Order"/>
+                <Property Name="Priority" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Priority"/>
+                <Property Name="Workcenter" Type="Edm.String" MaxLength="8" sap:display-format="NonNegative" sap:label="Work Center"/>
+                <Property Name="Plant" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant" sap:value-list="standard"/>
+                <Property Name="RequestedEndDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Required End"/>
+                <Property Name="NotificationType" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Notification type" sap:value-list="standard"/>
+                <Property Name="NotificationDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Notification date"/>
+                <Property Name="EquipmentNo" Type="Edm.String" MaxLength="18" sap:display-format="UpperCase" sap:label="Equipment"/>
+                <Property Name="EquipmentDescription" Type="Edm.String" MaxLength="40" sap:label="Equipment Description"/>
+                <Property Name="CreatedBy" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="Created By"/>
+                <Property Name="ShortDesc" Type="Edm.String" MaxLength="40" sap:label="Description"/>
+                <Property Name="MalfStartDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Malfunction Start Date"/>
+                <Property Name="MalfStartTime" Type="Edm.Time" Precision="0" sap:label="Malfunction Start Time"/>
+                <NavigationProperty Name="to_Notiftype" Relationship="ZC_NOTIFICATIONLIST_CDS.assoc_440695D7B7A5F239F59806658F769C30" FromRole="FromRole_assoc_440695D7B7A5F239F59806658F769C30" ToRole="ToRole_assoc_440695D7B7A5F239F59806658F769C30"/>
+                <NavigationProperty Name="to_Plant" Relationship="ZC_NOTIFICATIONLIST_CDS.assoc_03875AF5F554F06CC034EA1D14627A20" FromRole="FromRole_assoc_03875AF5F554F06CC034EA1D14627A20" ToRole="ToRole_assoc_03875AF5F554F06CC034EA1D14627A20"/>
+            </EntityType>
+            <EntityType Name="ZC_PM_GETNOTIFTYPType" sap:label="CDS View to fetch Notif type in table" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="NotificationType"/>
+                </Key>
+                <Property Name="NotificationType" Type="Edm.String" Nullable="false" MaxLength="2" sap:display-format="UpperCase" sap:label="Notification type"/>
+            </EntityType>
+            <EntityType Name="ZC_PM_GETPLANTType" sap:label="Get PM Plant from hardcode table" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="Plant"/>
+                </Key>
+                <Property Name="Plant" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="Plant"/>
+            </EntityType>
+            <Association Name="assoc_03875AF5F554F06CC034EA1D14627A20" sap:content-version="1">
+                <End Type="ZC_NOTIFICATIONLIST_CDS.ZC_NOTIFICATIONLISTType" Multiplicity="1" Role="FromRole_assoc_03875AF5F554F06CC034EA1D14627A20"/>
+                <End Type="ZC_NOTIFICATIONLIST_CDS.ZC_PM_GETPLANTType" Multiplicity="1" Role="ToRole_assoc_03875AF5F554F06CC034EA1D14627A20"/>
+            </Association>
+            <Association Name="assoc_440695D7B7A5F239F59806658F769C30" sap:content-version="1">
+                <End Type="ZC_NOTIFICATIONLIST_CDS.ZC_NOTIFICATIONLISTType" Multiplicity="1" Role="FromRole_assoc_440695D7B7A5F239F59806658F769C30"/>
+                <End Type="ZC_NOTIFICATIONLIST_CDS.ZC_PM_GETNOTIFTYPType" Multiplicity="1" Role="ToRole_assoc_440695D7B7A5F239F59806658F769C30"/>
+            </Association>
+            <EntityContainer Name="ZC_NOTIFICATIONLIST_CDS_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ZC_NOTIFICATIONLIST" EntityType="ZC_NOTIFICATIONLIST_CDS.ZC_NOTIFICATIONLISTType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZC_PM_GETNOTIFTYP" EntityType="ZC_NOTIFICATIONLIST_CDS.ZC_PM_GETNOTIFTYPType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZC_PM_GETPLANT" EntityType="ZC_NOTIFICATIONLIST_CDS.ZC_PM_GETPLANTType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+                <AssociationSet Name="assoc_03875AF5F554F06CC034EA1D14627A20" Association="ZC_NOTIFICATIONLIST_CDS.assoc_03875AF5F554F06CC034EA1D14627A20" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ZC_NOTIFICATIONLIST" Role="FromRole_assoc_03875AF5F554F06CC034EA1D14627A20"/>
+                    <End EntitySet="ZC_PM_GETPLANT" Role="ToRole_assoc_03875AF5F554F06CC034EA1D14627A20"/>
+                </AssociationSet>
+                <AssociationSet Name="assoc_440695D7B7A5F239F59806658F769C30" Association="ZC_NOTIFICATIONLIST_CDS.assoc_440695D7B7A5F239F59806658F769C30" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ZC_NOTIFICATIONLIST" Role="FromRole_assoc_440695D7B7A5F239F59806658F769C30"/>
+                    <End EntitySet="ZC_PM_GETNOTIFTYP" Role="ToRole_assoc_440695D7B7A5F239F59806658F769C30"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotations Target="ZC_NOTIFICATIONLIST_CDS.ZC_NOTIFICATIONLISTType/Plant" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Get PM Plant from hardcode table"/>
+                        <PropertyValue Property="CollectionPath" String="ZC_PM_GETPLANT"/>
+                        <PropertyValue Property="SearchSupported" Bool="true"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="Plant"/>
+                                    <PropertyValue Property="ValueListProperty" String="Plant"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="ZC_NOTIFICATIONLIST_CDS.ZC_NOTIFICATIONLISTType/NotificationType" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="CDS View to fetch Notif type in table"/>
+                        <PropertyValue Property="CollectionPath" String="ZC_PM_GETNOTIFTYP"/>
+                        <PropertyValue Property="SearchSupported" Bool="false"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="NotificationType"/>
+                                    <PropertyValue Property="ValueListProperty" String="NotificationType"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <atom:link rel="self" href="https://virutal.https.dgw:443/sap/opu/odata/sap/ZC_NOTIFICATIONLIST_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+            <atom:link rel="latest-version" href="https://virutal.https.dgw:443/sap/opu/odata/sap/ZC_NOTIFICATIONLIST_CDS/$metadata" xmlns:atom="http://www.w3.org/2005/Atom"/>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
