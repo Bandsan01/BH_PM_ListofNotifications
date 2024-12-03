@@ -21,6 +21,6 @@ builder:
           name: ZI_PM_LSTNOT
           description: List of notification
           package: ZPM_FIORI
-          transport: DGWK900673
+          transport: DGWK900753
         exclude:
           - /test/
